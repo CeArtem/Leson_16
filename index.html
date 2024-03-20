@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Counter</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Time Counter</h1>
+    <label for="timeInput">Time (in minutes):</label>
+    <input type="number" id="timeInput" value="1">
+    <button id="startButton">Start</button>
+    <button id="stopButton">Stop</button>
+    <div id="progressBar">
+        <div id="progress"></div>
+    </div>
+
+    <script>
+        let timer; 
+        let elapsedTime = 0; 
+        let totalTime = 0; 
+        const progress = document.getElementById('progress');
+
+        function startTimer() {
+            const timeInput = document.getElementById('timeInput').value;
+            totalTime = timeInput * 60; 
+            elapsedTime = 0;
+            clearInterval(timer); 
+            timer = setInterval(updateTimer, 1000); 
+        }
+
+        function updateTimer() {
+            elapsedTime++;
+            const remainingTime = totalTime - elapsedTime; 
+            const minutes = Math.floor(remainingTime / 60);
+            const seconds = remainingTime % 60;
+
+            if (remainingTime <= 0) {
+                clearInterval(timer);
+                alert("Час розім'ятися, Ви працюєте " + document.getElementById('timeInput').value + " хвилин!");
+                return;
+            }
+
+            progress.style.width = ((totalTime - remainingTime) / totalTime) * 100 + "%"; 
+
+            console.log(`${minutes}:${seconds}`);
+        }
+
+        function stopTimer() {
+            clearInterval(timer);
+        }
+
+        document.getElementById('startButton').addEventListener('click', startTimer);
+        document.getElementById('stopButton').addEventListener('click', stopTimer);
+    </script>
+</body>
+</html>
